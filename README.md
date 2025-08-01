@@ -1,0 +1,1 @@
+https://qa-scooter.praktikum-services.ru/docs/ https://praktikum.notion.site/20389c6a65da49fb8e22720c4356887c
