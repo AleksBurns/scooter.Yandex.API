@@ -2,6 +2,7 @@ package core;
 import classes.*;
 import java.time.LocalDate;
 
+import java.util.List;
 import java.util.Random;
 
 public class RandomGenerator {
@@ -59,5 +60,11 @@ public class RandomGenerator {
                 random.nextInt(8),
                 randomDeliveryDate(),
                 randomColor());
+    }
+
+    public static MetroStation getRandomStation(List<MetroStation> stations) {
+        Random random = new Random();
+        int index = random.nextInt(stations.size());
+        return stations.get(index);
     }
 }

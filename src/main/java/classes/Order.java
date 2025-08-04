@@ -20,7 +20,7 @@ package classes;
 //        "status": 0
 //}
 
-import static core.scooterURI.*;
+import static core.ScooterURI.*;
 import static io.restassured.RestAssured.*;
 
 public class Order {

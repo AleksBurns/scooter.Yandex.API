@@ -8,7 +8,7 @@ import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 
-import static core.scooterURI.*;
+import static core.ScooterURI.*;
 import static io.restassured.RestAssured.*;
 import static org.junit.Assert.*;
 import static core.RandomGenerator.*;

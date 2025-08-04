@@ -5,11 +5,15 @@ package core;
  */
 
 import classes.Courier;
+import classes.MetroStation;
 import classes.Order;
 import io.qameta.allure.Step;
+import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
 
-import static core.scooterURI.*;
+import java.util.List;
+
+import static core.ScooterURI.*;
 import static io.restassured.RestAssured.given;
 
 public class Steps {
@@ -84,5 +88,17 @@ public class Steps {
             System.out.println("Заказ с трек-номером " + trackNumber +" отменён.");
         }
         return response;
+    }
+
+    @Step("Запрос на получение списка станций метро")
+    public Response getMetroStationsList(){
+        return given().get(METRO_STATIONS);
+    }
+
+    @Step("Получение случайной станции метро из списка")
+    public MetroStation getRandomMetroStation(){
+        Response getMSList = getMetroStationsList();
+        List<MetroStation> stations = getMSList.as(new TypeRef<>(){});
+        return RandomGenerator.getRandomStation(stations);
     }
 }

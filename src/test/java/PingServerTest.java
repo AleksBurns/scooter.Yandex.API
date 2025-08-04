@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.*;
-import static core.scooterURI.*;
+import static core.ScooterURI.*;
 import static org.junit.Assert.*;
 
 public class PingServerTest {

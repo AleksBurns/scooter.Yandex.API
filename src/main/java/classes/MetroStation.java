@@ -1,14 +1,14 @@
 package classes;
 
-public class MetroStations {
+public class MetroStation {
     private String number;
     private String name;
     private String color;
 
-    public MetroStations() {
+    public MetroStation() {
     }
 
-    public MetroStations (String number, String name, String color){
+    public MetroStation(String number, String name, String color){
         this.number = number;
         this.name = name;
         this.color = color;
@@ -32,6 +32,12 @@ public class MetroStations {
     }
     public void setColor(String color){
         this.color = color;
+    }
+
+
+    @Override
+    public String toString() {
+        return "number: " + number + ", name: " + name + ", color: " + color;
     }
 
 }

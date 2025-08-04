@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import java.util.Arrays;
 
-import static core.scooterURI.*;
+import static core.ScooterURI.*;
 import static io.restassured.RestAssured.*;
 import static core.RandomGenerator.*;
 
