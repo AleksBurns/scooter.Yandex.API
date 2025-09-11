@@ -7,8 +7,9 @@ public interface ScooterURI {
     final static String LOGIN_COURIER = "/api/v1/courier/login";
     final static String DELETE_COURIER = "/api/v1/courier/";
     final static String ORDERS = "/api/v1/orders";
+    final static String GET_ORDER = "/api/v1/orders/track?t="; //GET+ orderTrack
     final static String METRO_STATIONS = "/api/v1/stations/search";
-    final static String TAKE_ORDER = "/api/v1/orders/accept/1?courierId=1";
-    final static String FINISH_ORDER = "/api/v1/orders/finish/1";
-    final static String CANCEL_ORDER = "/api/v1/orders/cancel";
+    final static String ACCEPT_ORDER = "/api/v1/orders/accept/"; //PUT+ "orderId?courierId"
+    final static String FINISH_ORDER = "/api/v1/orders/finish/"; //PUT+ "orderId"
+    final static String CANCEL_ORDER = "/api/v1/orders/cancel";//PUT
 }
