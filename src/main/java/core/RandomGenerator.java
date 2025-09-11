@@ -29,7 +29,7 @@ public class RandomGenerator {
                 randomString(6)
         );
     }
-    public static int randomIdNumber(){
+    public static int randomIdOrTrackNumber(){
         return 100000 + random.nextInt(900000);
     }
 
@@ -52,13 +52,15 @@ public class RandomGenerator {
 
     public static Order randomOrderData() {
         Random random = new Random();
+        int metroStation = random.nextInt(238);
         return new Order(randomString(6),
                 randomString(6),
                 randomString(12),
-                random.nextInt(238),
+                Integer.toString(metroStation),
                 randomPhoneNumber(),
                 random.nextInt(8),
                 randomDeliveryDate(),
+                randomString(42),
                 randomColor());
     }
 

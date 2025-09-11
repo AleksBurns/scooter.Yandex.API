@@ -1,35 +1,19 @@
 package classes;
 
-//{
-//    "firstName": "Имя",
-//    "lastName": "Фамилия",
-//    "address": "Test-1234",
-//    "metroStation": 4,
-//    "phone": "+78003553535",
-//    "rentTime": 1,
-//    "deliveryDate": "2022-07-27",
-//    "comment": "",
-//    "color": [
-//        "BLACK"
-//    ]
-//        "cancelled": false,
-//        "finished": false,
-//        "inDelivery": false,
-//        "createdAt": "2025-07-16T17:32:17.114Z",
-//        "updatedAt": "2025-07-16T17:32:17.114Z",
-//        "status": 0
-//}
-
 import static core.ScooterURI.*;
 import static io.restassured.RestAssured.*;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Order {
+    private Order order;
     private int id;
     private int track;
     private String firstName;
     private String lastName;
     private String address;
-    private int metroStation;
+    private String metroStation;
     private String phone;
     private int rentTime;
     private String deliveryDate;
@@ -40,9 +24,14 @@ public class Order {
     private boolean inDelivery;
     private String createdAt;
     private String updatedAt;
+    private String courierId;
+    private String courierFirstName;
     private int status;
 
-    public Order(String firstName, String lastName, String address, int metroStation, String phone, int rentTime, String deliveryDate, String[] color){
+
+    private List<Order> orders;
+
+    public Order(String firstName, String lastName, String address, String metroStation, String phone, int rentTime, String deliveryDate, String comment, String[] color){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -50,11 +39,15 @@ public class Order {
         this.phone = phone;
         this.rentTime = rentTime;
         this.deliveryDate = deliveryDate;
+        this.comment = comment;
         this.color = color;
     }
 
     public Order(){
+    }
 
+    public Order getOrder(){
+        return order;
     }
     public int getId(){
         return id;
@@ -68,7 +61,7 @@ public class Order {
     public String getAddress() {
         return address;
     }
-    public int getMetroStation() {
+    public String getMetroStation() {
         return metroStation;
     }
     public String getPhone() {
@@ -104,10 +97,22 @@ public class Order {
     public String getUpdatedAt() {
         return updatedAt;
     }
+    public String getCourierId() {
+        return courierId;
+    }
+    public String getCourierFirstName(){
+        return courierFirstName;
+    }
     public int getStatus() {
         return status;
     }
+    public List<Order> getOrders(){
+        return this.orders;
+    }
 
+    public void setOrder(Order order){
+        this.order = order;
+    }
     public void setId(int id){
         this.id = id;
     }
@@ -120,7 +125,7 @@ public class Order {
     public void setAddress(String address) {
         this.address = address;
     }
-    public void setMetroStation(int metroStation) {
+    public void setMetroStation(String metroStation) {
         this.metroStation = metroStation;
     }
     public void setPhone(String phone) {
@@ -156,29 +161,41 @@ public class Order {
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
+    public void setCourierId(String  courierId) {
+        this.courierId = courierId;
+    }
+    public void setCourierFirstName(String courierFirstName){
+        this.courierFirstName = courierFirstName;
+    }
     public void setStatus(int status) {
         this.status = status;
     }
+    public void setOrders(List<Order> orders){
+        this.orders = orders;
+    }
 
-    public void cancelOrder(int trackNumber){
-        String jsonTrackNumber = "{\"track\" : " + trackNumber + "}";
-        given()
-                .contentType("application/json")
-                .body(jsonTrackNumber)
-                .put(CANCEL_ORDER);
+    public String getFirstColor(){
+        return color[0];
     }
 
     @Override
     public String toString(){
         return
-                "firstName: " + firstName + "\n" +
-                "lastName: " + lastName + "\n" +
-                "address: " + address + "\n" +
-                "metroStation: " + metroStation + "\n" +
-                "phone: " + phone + "\n" +
-                "rentTime: " + rentTime + "\n" +
-                "deliveryDate: " + deliveryDate + "\n" +
-                "comment: " + comment + "\n" +
-                "color: " + color[0];
+                        "id: " + id + "\n" +
+                        "courierId: " + "\n" +
+                        "firstName: " + firstName + "\n" +
+                        "lastName: " + lastName + "\n" +
+                        "address: " + address + "\n" +
+                        "metroStation: " + metroStation + "\n" +
+                        "phone: " + phone + "\n" +
+                        "rentTime: " + rentTime + "\n" +
+                        "deliveryDate: " + deliveryDate + "\n" +
+                        "track: " + track + "\n" +
+                        "color: " + color[0] + "\n" +
+                        "comment: " + comment + "\n" +
+                        "createdAt: " + createdAt + "\n" +
+                        "updatedAt: " + updatedAt + "\n" +
+                        "status: " + status + "\n" +
+                        "courierFirstName" + courierFirstName;
     }
 }

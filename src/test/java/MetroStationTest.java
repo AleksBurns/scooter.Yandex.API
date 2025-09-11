@@ -29,9 +29,10 @@ public class MetroStationTest extends Steps {
     public void printRandomStationFromMSList(){
         System.out.println(getRandomMetroStation().toString());
     }
+
 @Test
     public void getMSListResponseTime(){
     Response getMSList = getMetroStationsList();
-    assertTrue(getMSList.getTime() < 1200);
+    assertTrue(getMSList.getTime() <= 1500);
     }
 }

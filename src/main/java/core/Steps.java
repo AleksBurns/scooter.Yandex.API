@@ -10,7 +10,6 @@ import classes.Order;
 import io.qameta.allure.Step;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.response.Response;
-
 import java.util.List;
 
 import static core.ScooterURI.*;
@@ -33,17 +32,15 @@ public class Steps {
     }
 
     @Step("Логин курьера")
-    public Response loginCourier(Courier courier){
-        Response response =
-                given()
+    public Response loginCourier(Courier courier) {
+                return given()
                         .contentType("application/json")
                         .body(courier)
                         .post(LOGIN_COURIER);
-        if(response.getStatusCode() == 200) {
-            int actualId = response.jsonPath().getInt("id");
-            System.out.println("id = " + actualId);
-        }
-        return response;
+//        if(response.getStatusCode() == 200) {
+//            int actualId = response.jsonPath().getInt("id");
+//            System.out.println("id = " + actualId);
+//        }
     }
 
     @Step("Получение id курьера")
@@ -52,12 +49,20 @@ public class Steps {
     }
 
     @Step("Удаление курьера по ID")
-    public Response deleteCourierWithId(int id){
-         Response response = given().delete(DELETE_COURIER + id);
+    public Response deleteCourierWithId(int courierId){
+         Response response = given().delete(DELETE_COURIER + courierId);
          if (response.getStatusCode() == 200){
-             System.out.println("Курьер успешно удалён.");
+             System.out.println("Курьер " + courierId + " успешно удалён.");
          }
          return response;
+    }
+
+    @Step("Удаление курьера после теста")
+    public void deleteCourierAfterTest(Courier createdCourier){
+        Response loginCreatedCourier = loginCourier(createdCourier);
+        if(loginCreatedCourier.getStatusCode() == 200) {
+            deleteCourierWithId(getCourierId(loginCreatedCourier));
+        }
     }
 
     @Step("Создание нового заказа")
@@ -73,13 +78,19 @@ public class Steps {
     }
 
     @Step("Получение трек-номера заказа")
-    public int getTrackNumber(Response createdOrderResponse){
-        return createdOrderResponse.jsonPath().getInt("track");
+    public int getOrderTrack(Response responseAfterCreateOrder){
+        return responseAfterCreateOrder.jsonPath().getInt("track");
+    }
+
+    @Step("Получение Id заказа")
+    public int getOrderId(Response responseAfterCreateOrder){
+        int orderTrack = responseAfterCreateOrder.jsonPath().getInt("track");
+        return getOrderData(orderTrack).getId();
     }
 
     @Step("Отмена заказа")
     public Response cancelOrder(int trackNumber){
-        String requestBody = "{\n \"track\": 858409\n}";
+        String requestBody = "{\n \"track\": " + trackNumber + "\n}";
         Response response = given()
                 .contentType(json)
                 .body(requestBody)
@@ -100,5 +111,39 @@ public class Steps {
         Response getMSList = getMetroStationsList();
         List<MetroStation> stations = getMSList.as(new TypeRef<>(){});
         return RandomGenerator.getRandomStation(stations);
+    }
+
+    @Step("Получение списка заказов")
+    public List<Order> getOrdersList(){
+        Response getOrderList = given()
+                .get(ORDERS);
+        Order ordersList = getOrderList.as(Order.class);
+        return ordersList.getOrders();
+    }
+
+    @Step("Получение данных заказа")
+    public Order getOrderData(int orderTrack){
+        Response getOrderDataResponse = given().get(GET_ORDER + orderTrack);
+        Order orderData = getOrderDataResponse.as(Order.class);
+        return orderData.getOrder();
+    }
+
+    @Step("Принять заказ")
+    public Response acceptOrder(int orderId, int courierId){
+        Response acceptedOrder = given()
+                .put("api/v1/orders/accept/" + orderId + "?courierId=" + courierId);
+        if(acceptedOrder.statusCode() == 200){
+            System.out.println("Заказ " + orderId + " успешно принят курьером " + courierId);
+        }
+        return acceptedOrder;
+    }
+
+    @Step("Завершить заказ")
+    public Response finishOrder(int orderId){
+        Response finishedOrder =  given().put(FINISH_ORDER + orderId);
+        if(finishedOrder.statusCode() == 200){
+            System.out.println("Заказ " + orderId + " успешно завершен");
+        }
+        return finishedOrder;
     }
 }
